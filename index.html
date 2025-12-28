@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnicodeHexMono Font Showcase</title>
+    
+    <!-- UnicodeHexMono Font -->
+    <link rel="stylesheet" href="dist/font.css">
+    
+    <style>
+        /* ============================================
+           CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+           ============================================ */
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --surface: #ffffff;
+            --surface-elevated: #f8f9fa;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #7c3aed;
+            --secondary-hover: #6d28d9;
+            --text-primary: #171717;
+            --text-secondary: #737373;
+            --text-tertiary: #a3a3a3;
+            --border: #e5e5e5;
+            --border-focus: #2563eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Typography */
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Dark Mode */
+        :root[data-theme="dark"] {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #262626;
+            --surface: #1a1a1a;
+            --surface-elevated: #262626;
+            --primary: #60a5fa;
+            --primary-hover: #3b82f6;
+            --secondary: #a78bfa;
+            --secondary-hover: #8b5cf6;
+            --text-primary: #e5e5e5;
+            --text-secondary: #a3a3a3;
+            --text-tertiary: #737373;
+            --border: #404040;
+            --border-focus: #60a5fa;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            color-scheme: dark;
+        }
+        
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        
+        /* ============================================
+           LAYOUT
+           ============================================ */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .app-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* ============================================
+           THEME TOGGLE
+           ============================================ */
+        .theme-toggle {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* ============================================
+           TAB NAVIGATION
+           ============================================ */
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            background: var(--surface);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .tab-button:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* ============================================
+           TAB CONTENT
+           ============================================ */
+        .tab-content {
+            display: none;
+            animation: fadeIn var(--transition-base);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ============================================
+           SCREEN 1: TEXT TESTER
+           ============================================ */
+        .text-tester {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .font-mode-toggle {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .mode-button {
+            flex: 1;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .mode-button:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .mode-button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .font-size-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            outline: none;
+        }
+        
+        .font-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .font-size-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.1);
+        }
+        
+        .font-size-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .font-size-value {
+            min-width: 5rem;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .preview-area {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            min-height: 300px;
+        }
+        
+        .preview-textarea {
+            width: 100%;
+            min-height: 250px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'UnicodeHexMono', var(--font-mono);
+            color: var(--text-primary);
+            resize: vertical;
+        }
+        
+        /* ============================================
+           SCREEN 2: GLYPH VIEWER
+           ============================================ */
+        .glyph-viewer {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            width: auto;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+        }
+        
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .viewer-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .viewer-stats {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .viewer-warning {
+            display: none;
+            background: #fef3c7;
+            color: #92400e;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            margin-left: var(--spacing-md);
+            border: 1px solid #fbbf24;
+        }
+        
+        :root[data-theme="dark"] .viewer-warning {
+            background: #451a03;
+            color: #fbbf24;
+            border-color: #92400e;
+        }
+        
+        .viewer-warning.visible {
+            display: inline-block;
+        }
+        
+        .scroll-container {
+            height: 600px;
+            overflow-y: auto;
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+        }
+        
+        .scroll-content {
+            position: relative;
+        }
+        
+        .glyph-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            padding-bottom: var(--spacing-xl);
+        }
+        
+        .glyph-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            transition: all var(--transition-fast);
+        }
+        
+        .glyph-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        
+        .glyph-examples {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-md) 0;
+            background: white;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            min-height: 80px;
+            height: 80px;
+        }
+        
+        /* Dark mode: black background with white text for glyph examples */
+        :root[data-theme="dark"] .glyph-examples {
+            background: #000;
+        }
+        
+        :root[data-theme="dark"] .glyph-example {
+            color: #fff;
+        }
+        
+        .glyph-example {
+            font-family: 'UnicodeHexMono', var(--font-mono);
+            color: #000;
+            text-align: center;
+        }
+        
+        .glyph-example.size-4 { font-size: 4rem; line-height: 1; }
+        .glyph-example.size-2 { font-size: 2rem; line-height: 1; }
+        .glyph-example.size-1 { font-size: 1rem; line-height: 1; }
+        
+        .glyph-code {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* ============================================
+           SCREEN 3: TEST CASES
+           ============================================ */
+        .test-cases {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .test-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--border);
+        }
+        
+        .test-section h2 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+        
+        .test-glyph {
+            font-family: 'UnicodeHexMono', monospace;
+            font-size: 3rem;
+            line-height: 1;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: #111;
+            border-radius: var(--radius-md);
+            flex-shrink: 0;
+        }
+        
+        /* Dark mode: black background with white text for test glyphs */
+        :root[data-theme="dark"] .test-glyph {
+            background: #000;
+            color: #fff;
+        }
+        
+        .test-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .test-code {
+            font-family: var(--font-mono);
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .test-expected {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-top: var(--spacing-xs);
+            font-family: var(--font-mono);
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--spacing-md);
+            }
+            
+            .app-title {
+                font-size: 1.5rem;
+            }
+            
+            .tab-nav {
+                flex-direction: column;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .glyph-grid,
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ============================================
+           UTILITIES
+           ============================================ */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">UnicodeHexMono Font Showcase</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span id="themeIcon">🌙</span>
+                <span id="themeLabel">Dark Mode</span>
+            </button>
+        </header>
+        
+        <!-- Tab Navigation -->
+        <nav class="tab-nav" role="tablist">
+            <button class="tab-button active" role="tab" data-tab="info" aria-selected="true">
+                ℹ️ Info
+            </button>
+            <button class="tab-button" role="tab" data-tab="text-test" aria-selected="false">
+                📝 Text Testing
+            </button>
+            <button class="tab-button" role="tab" data-tab="glyph-list" aria-selected="false">
+                🔤 Glyph List
+            </button>
+            <button class="tab-button" role="tab" data-tab="test-cases" aria-selected="false">
+                ✅ Test Cases
+            </button>
+        </nav>
+        
+        <!-- Screen 1: Info -->
+        <div class="tab-content active" id="info" role="tabpanel">
+            <div class="test-cases">
+                <div class="test-section">
+                    <h2>💡 What is UnicodeHexMono?</h2>
+                    <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-md);">
+                        UnicodeHexMono is a specialized monospaced font designed to serve as a <strong>backup font</strong> in your font stack. 
+                        When your primary font cannot display a particular Unicode character, instead of showing the typical 
+                        <span style="font-family: monospace; background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px;">□</span> (missing glyph box) or 
+                        <span style="font-family: monospace; background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px;">�</span> (replacement character), 
+                        UnicodeHexMono will display the character's <strong>hexadecimal Unicode codepoint</strong> in a beautifully rendered format.
+                    </p>
+                    <p style="color: var(--text-primary); line-height: 1.8;">
+                        This makes it invaluable for developers, designers, and anyone working with international text, 
+                        emoji, or special symbols — you'll always know exactly which character is being referenced, even if you can't see its actual glyph.
+                    </p>
+                </div>
+                
+                <div class="test-section">
+                    <h2>🎯 Primary Use Case: Backup Font in Font Stack</h2>
+                    <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-md);">
+                        Add UnicodeHexMono to the <strong>end of your CSS font-family stack</strong>:
+                    </p>
+                    <pre style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-md); overflow-x: auto; font-family: var(--font-mono); font-size: 0.875rem; color: var(--text-primary); margin-bottom: var(--spacing-md);">
+font-family: "SF Mono", Menlo, Monaco, Consolas, 
+             "Liberation Mono", "Courier New", 
+             "UnicodeHexMono", monospace;</pre>
+                    <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-md);">
+                        <strong>How it works:</strong>
+                    </p>
+                    <ol style="color: var(--text-primary); line-height: 1.8; margin-left: var(--spacing-xl); margin-bottom: var(--spacing-md);">
+                        <li>Browser tries to render a character using "SF Mono"</li>
+                        <li>If "SF Mono" doesn't have that glyph, tries "Menlo"</li>
+                        <li>Continues down the list...</li>
+                        <li>When it reaches UnicodeHexMono, instead of showing □, it displays the hex code!</li>
+                    </ol>
+                    <p style="color: var(--text-primary); line-height: 1.8;">
+                        <strong>Result:</strong> You get instant visual feedback about which Unicode character is present in your text, 
+                        making debugging and internationalization work much easier.
+                    </p>
+                </div>
+                
+                <div class="test-section">
+                    <h2>📐 Glyph Display Formats by Unicode Range</h2>
+                    <div style="display: grid; gap: var(--spacing-md);">
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">🔤 BMP Characters (U+0000 — U+FFFF)</h3>
+                            <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                                <strong>Format:</strong> 4-digit hex code in 2×2 grid inside outlined rounded square
+                            </p>
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                                <div class="test-glyph" style="font-size: 3rem;">&#x1234;</div>
+                                <div style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.875rem;">
+                                    <div><strong>Example:</strong> U+1234</div>
+                                    <div style="margin-top: 4px;">Displays as: 12/34</div>
+                                    <div style="margin-top: 4px;">(2×2 grid layout)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">🎯 Supplementary Planes 1-15 (U+10000 — U+FFFFF)</h3>
+                            <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                                <strong>Format:</strong> Split layout with large plane digit + 2×2 grid of remaining digits
+                            </p>
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                                <div class="test-glyph" style="font-size: 3rem;">&#xE12AB;</div>
+                                <div style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.875rem;">
+                                    <div><strong>Example:</strong> U+E12AB</div>
+                                    <div style="margin-top: 4px;">Displays as: E + 12/AB</div>
+                                    <div style="margin-top: 4px;">(Split: plane digit | 2×2 grid)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">⬛ Plane 16 (U+100000 — U+10FFFD)</h3>
+                            <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                                <strong>Format:</strong> Last 4 digits in 2×2 grid inside <strong>filled</strong> rounded square with vertical line separator
+                            </p>
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                                <div class="test-glyph" style="font-size: 3rem;">&#x10ABCD;</div>
+                                <div style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.875rem;">
+                                    <div><strong>Example:</strong> U+10ABCD</div>
+                                    <div style="margin-top: 4px;">Displays as: AB/CD (filled bg)</div>
+                                    <div style="margin-top: 4px;">(Extra rounded corners)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">❌ Replacement Character (U+FFFD)</h3>
+                            <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                                <strong>Format:</strong> Diagonal X inside outlined rounded square
+                            </p>
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                                <div class="test-glyph" style="font-size: 3rem;">&#xFFFD;</div>
+                                <div style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.875rem;">
+                                    <div><strong>Special:</strong> U+FFFD</div>
+                                    <div style="margin-top: 4px;">Shows diagonal X</div>
+                                    <div style="margin-top: 4px;">(Invalid/broken characters)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>⚠️ Edge Cases & Special Behaviors</h2>
+                    
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <h3 style="color: var(--secondary); margin-bottom: var(--spacing-sm); font-size: 0.95rem;">⚡ Control Characters</h3>
+                        <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                            Some control characters have special browser handling:
+                        </p>
+                        <div class="test-grid">
+                            <div class="test-item">
+                                <div class="test-glyph">&#x0000;</div>
+                                <div class="test-info">
+                                    <div class="test-code">U+0000 (NULL)</div>
+                                    <div class="test-expected">Browser forces → U+FFFD, shows X</div>
+                                </div>
+                            </div>
+                            <div class="test-item">
+                                <div class="test-glyph">&#x0009;</div>
+                                <div class="test-info">
+                                    <div class="test-code">U+0009 (TAB)</div>
+                                    <div class="test-expected">May render as whitespace</div>
+                                </div>
+                            </div>
+                            <div class="test-item">
+                                <div class="test-glyph">&#x000A;</div>
+                                <div class="test-info">
+                                    <div class="test-code">U+000A (LF)</div>
+                                    <div class="test-expected">Browser treats as line break</div>
+                                </div>
+                            </div>
+                            <div class="test-item">
+                                <div class="test-glyph">&#x000D;</div>
+                                <div class="test-info">
+                                    <div class="test-code">U+000D (CR)</div>
+                                    <div class="test-expected">May be ignored in HTML</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-top: var(--spacing-sm); font-style: italic;">
+                            <strong>Note:</strong> The font includes glyphs for these characters, but browser rendering engines 
+                            may handle them specially according to HTML/CSS specifications.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <h3 style="color: var(--secondary); margin-bottom: var(--spacing-sm); font-size: 0.95rem;">🚫 Excluded Codepoints</h3>
+                        <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                            The following codepoints are intentionally excluded from the font to ensure browser compatibility:
+                        </p>
+                        <ul style="color: var(--text-primary); line-height: 1.8; margin-left: var(--spacing-xl);">
+                            <li><strong>Surrogates (U+D800—U+DFFF):</strong> 2,048 codepoints reserved for UTF-16 encoding</li>
+                            <li><strong>Non-characters ending in FFFE/FFFF:</strong> 34 codepoints (e.g., U+FFFE, U+FFFF, U+1FFFF, etc.)</li>
+                            <li><strong>U+FDD0—U+FDEF:</strong> 32 reserved non-character codepoints</li>
+                        </ul>
+                        <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-top: var(--spacing-sm); font-style: italic;">
+                            <strong>Total Coverage:</strong> 1,111,998 valid Unicode codepoints (out of 1,114,112 possible)
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <h3 style="color: var(--secondary); margin-bottom: var(--spacing-sm); font-size: 0.95rem;">🎨 Rendering in Different Contexts</h3>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: var(--spacing-sm);">
+                            <h4 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 0.875rem;">Code Editors & Terminals</h4>
+                            <p style="color: var(--text-primary); line-height: 1.8; font-size: 0.875rem;">
+                                Perfect for showing which characters are present in source code. Great for debugging:
+                            </p>
+                            <ul style="color: var(--text-secondary); line-height: 1.8; font-size: 0.875rem; margin-left: var(--spacing-lg); margin-top: var(--spacing-xs);">
+                                <li>Directional marks (U+200E, U+200F)</li>
+                                <li>Uncommon Unicode spaces (U+2000—U+200A)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: var(--spacing-sm);">
+                            <h4 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 0.875rem;">Web Development & Testing</h4>
+                            <p style="color: var(--text-primary); line-height: 1.8; font-size: 0.875rem;">
+                                Instantly see which emoji or symbols are being used without guessing:
+                            </p>
+                            <ul style="color: var(--text-secondary); line-height: 1.8; font-size: 0.875rem; margin-left: var(--spacing-lg); margin-top: var(--spacing-xs);">
+                                <li>Emoji sequences and variants</li>
+                                <li>Regional indicator symbols</li>
+                                <li>Mathematical and technical symbols</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 0.875rem;">Internationalization (i18n) Work</h4>
+                            <p style="color: var(--text-primary); line-height: 1.8; font-size: 0.875rem;">
+                                When fonts don't support certain language scripts, you'll see the codepoints instead of blank squares:
+                            </p>
+                            <ul style="color: var(--text-secondary); line-height: 1.8; font-size: 0.875rem; margin-left: var(--spacing-lg); margin-top: var(--spacing-xs);">
+                                <li>Ancient/historical scripts (Egyptian hieroglyphs, Cuneiform)</li>
+                                <li>Rare Asian scripts (Tangut, Nüshu)</li>
+                                <li>Specialized notation systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: var(--secondary); margin-bottom: var(--spacing-sm); font-size: 0.95rem;">🔍 Font Size Recommendations</h3>
+                        <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                            The hex digits are optimized for readability at different sizes:
+                        </p>
+                        <ul style="color: var(--text-primary); line-height: 1.8; margin-left: var(--spacing-xl);">
+                            <li><strong>20px and above:</strong> All hex digits clearly readable (recommended)</li>
+                            <li><strong>16px—19px:</strong> Digits readable but may appear small</li>
+                            <li><strong>Below 16px:</strong> Not recommended, digits may be difficult to distinguish</li>
+                        </ul>
+                        <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-top: var(--spacing-sm); font-style: italic;">
+                            The custom rendering produces clean hex digits with good readability.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>📊 Technical Specifications</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--spacing-md);">
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">Font Formats</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">OTF (OpenType) + WOFF2 (Web optimized)</p>
+                        </div>
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">File Count</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">38 font files (19 ranges × 2 formats)</p>
+                        </div>
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">Total Size</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">~414 MB OTF + ~10 MB WOFF2 (~424 MB total)</p>
+                        </div>
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">Glyph Count</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">1,111,998 valid Unicode codepoints</p>
+                        </div>
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">Character Width</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">Monospaced (1000 EM units)</p>
+                        </div>
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h4 style="color: var(--primary); font-size: 0.875rem; margin-bottom: var(--spacing-xs);">Digit Rendering</h4>
+                            <p style="color: var(--text-primary); font-size: 0.875rem;">3×5 pixel grid</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Screen 2: Text Testing -->
+        <div class="tab-content" id="text-test" role="tabpanel">
+            <div class="text-tester">
+                <div class="controls">
+                    <div class="control-group">
+                        <label class="control-label">Font Mode</label>
+                        <div class="font-mode-toggle">
+                            <button class="mode-button active" data-mode="only">Only Font</button>
+                            <button class="mode-button" data-mode="backup">As Backup</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Font Size</label>
+                        <div class="font-size-control">
+                            <input 
+                                type="range" 
+                                class="font-size-slider" 
+                                id="fontSizeSlider"
+                                min="0.5" 
+                                max="20" 
+                                step="0.5" 
+                                value="2"
+                            >
+                            <span class="font-size-value" id="fontSizeValue">2.0rem</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview-area">
+                    <textarea 
+                        class="preview-textarea" 
+                        id="previewTextarea"
+                        placeholder="Paste text to debug Unicode issues...&#10;&#10;💡 Use 'As Backup' mode to see hex codes for missing glyphs!&#10;&#10;Try problematic characters:&#10;• ßDirection: ‏RTL‏ marks (U+200F)&#10;• Spaces: Em space vs normal space&#10;• Ancient: 𓀀 Hieroglyphs (U+13000+)&#10;• Rare: 𖿡 Symbols (may show as hex codes)"
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Screen 3: Glyph List -->
+        <div class="tab-content" id="glyph-list" role="tabpanel">
+            <div class="glyph-viewer">
+                <div class="viewer-header">
+                    <h2 class="viewer-title">Unicode Glyph Explorer</h2>
+                    <div>
+                        <span class="viewer-warning" id="viewerWarning">⚠️ Screen too narrow - not all glyphs reachable</span>
+                        <span class="viewer-stats" id="viewerStats">U+0000 - U+10FFFF</span>
+                    </div>
+                </div>
+                <div class="scroll-container" id="scrollContainer">
+                    <div class="scroll-content" id="scrollContent">
+                        <div class="glyph-grid" id="glyphGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Screen 3: Test Cases -->
+        <div class="tab-content" id="test-cases" role="tabpanel">
+            <div class="test-cases">
+                <div class="test-section">
+                    <h2>🔍 Control Characters - Hex Code Display</h2>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0000;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0000</div>
+                                <div class="test-expected">X (browser → U+FFFD)</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0001;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0001</div>
+                                <div class="test-expected">00/01</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x000A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+000A</div>
+                                <div class="test-expected">Empty (browser treats as LF)</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x001F;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+001F</div>
+                                <div class="test-expected">00/1F</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x007F;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+007F</div>
+                                <div class="test-expected">00/7F</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>📊 BMP Characters (U+0000 - U+FFFF) - 2x2 Grid Layout</h2>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0123;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0123</div>
+                                <div class="test-expected">01/23</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x1234;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+1234</div>
+                                <div class="test-expected">12/34</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x2345;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+2345</div>
+                                <div class="test-expected">23/45</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x3456;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+3456</div>
+                                <div class="test-expected">34/56</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x4567;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+4567</div>
+                                <div class="test-expected">45/67</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x5678;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+5678</div>
+                                <div class="test-expected">56/78</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x6789;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+6789</div>
+                                <div class="test-expected">67/89</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x789A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+789A</div>
+                                <div class="test-expected">78/9A</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x89AB;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+89AB</div>
+                                <div class="test-expected">89/AB</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x9ABC;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+9ABC</div>
+                                <div class="test-expected">9A/BC</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xABCD;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+ABCD</div>
+                                <div class="test-expected">AB/CD</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xBCDE;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+BCDE</div>
+                                <div class="test-expected">BC/DE</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xCDEF;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+CDEF</div>
+                                <div class="test-expected">CD/EF</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xDEF0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+DEF0</div>
+                                <div class="test-expected">DE/F0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xEF01;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+EF01</div>
+                                <div class="test-expected">EF/01</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xF012;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+F012</div>
+                                <div class="test-expected">F0/12</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xFFFD;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+FFFD</div>
+                                <div class="test-expected">X (replacement)</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0041;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0041</div>
+                                <div class="test-expected">00/41</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>🎯 Supplementary Planes 1-15 (U+10000 - U+FFFFF) - Split Layout</h2>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x10000;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+10000</div>
+                                <div class="test-expected">1 + 00/00</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x23456;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+23456</div>
+                                <div class="test-expected">2 + 34/56</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x3789A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+3789A</div>
+                                <div class="test-expected">3 + 78/9A</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x4BCDE;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+4BCDE</div>
+                                <div class="test-expected">4 + BC/DE</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x5F012;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+5F012</div>
+                                <div class="test-expected">5 + F0/12</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x6ABCD;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+6ABCD</div>
+                                <div class="test-expected">6 + AB/CD</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x71234;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+71234</div>
+                                <div class="test-expected">7 + 12/34</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x89ABC;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+89ABC</div>
+                                <div class="test-expected">8 + 9A/BC</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x9DEF0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+9DEF0</div>
+                                <div class="test-expected">9 + DE/F0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xA5678;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+A5678</div>
+                                <div class="test-expected">A + 56/78</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xBBDD8;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+BBDD8</div>
+                                <div class="test-expected">B + BD/D8</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xCDEF0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+CDEF0</div>
+                                <div class="test-expected">C + DE/F0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xD1234;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+D1234</div>
+                                <div class="test-expected">D + 12/34</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xE12AB;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+E12AB</div>
+                                <div class="test-expected">E + 12/AB</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#xFFFFD;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+FFFFD</div>
+                                <div class="test-expected">F + FF/FD</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>⬛ Plane 16 (U+100000 - U+10FFFD) - Filled Squares</h2>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x100000;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+100000</div>
+                                <div class="test-expected">Filled 00/00</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x101234;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+101234</div>
+                                <div class="test-expected">Filled 12/34</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x10ABCD;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+10ABCD</div>
+                                <div class="test-expected">Filled AB/CD</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x10BDD8;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+10BDD8</div>
+                                <div class="test-expected">Filled BD/D8</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x10F012;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+10F012</div>
+                                <div class="test-expected">Filled F0/12</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Screen 4: Test Cases -->
+        <div class="tab-content" id="test-cases" role="tabpanel">
+    
+    <script>
+        // ============================================
+        // FONT LOADER
+        // ============================================
+        class FontLoader {
+            constructor() {
+                this.timestamp = Date.now();
+                this.fontsLoaded = false;
+            }
+            
+            async init() {
+                await this.loadTestFont();
+                this.fontsLoaded = true;
+            }
+            
+
+            
+            async loadTestFont() {
+                try {
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @font-face {
+                            font-family: 'UnicodeHexMono';
+                            src: url('dist/UnicodeHexMono_TEST.woff2?v=${this.timestamp}') format('woff2'),
+                                 url('dist/UnicodeHexMono_TEST.otf?v=${this.timestamp}') format('opentype');
+                            font-weight: normal;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                } catch (e) {
+                    console.log('Test font not available');
+                }
+            }
+        }
+        
+        // ============================================
+        // THEME MANAGER
+        // ============================================
+        class ThemeManager {
+            constructor() {
+                this.currentTheme = this.detectTheme();
+                this.themeToggle = document.getElementById('themeToggle');
+                this.themeIcon = document.getElementById('themeIcon');
+                this.themeLabel = document.getElementById('themeLabel');
+            }
+            
+            detectTheme() {
+                // Check localStorage first
+                const stored = localStorage.getItem('theme');
+                if (stored) return stored;
+                
+                // Check system preference
+                const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                if (darkModeMediaQuery && darkModeMediaQuery.matches) {
+                    return 'dark';
+                }
+                
+                return 'light';
+            }
+            
+            init() {
+                // Apply theme immediately on construction
+                this.applyTheme(this.currentTheme);
+                this.themeToggle.addEventListener('click', () => this.toggle());
+                
+                // Listen for system theme changes
+                const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                if (darkModeMediaQuery) {
+                    darkModeMediaQuery.addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            this.applyTheme(e.matches ? 'dark' : 'light');
+                        }
+                    });
+                }
+            }
+            
+            toggle() {
+                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                this.applyTheme(this.currentTheme);
+                localStorage.setItem('theme', this.currentTheme);
+            }
+            
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                this.themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+                this.themeLabel.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            }
+        }
+        
+        // ============================================
+        // TAB MANAGER
+        // ============================================
+        class TabManager {
+            constructor() {
+                this.tabButtons = document.querySelectorAll('.tab-button');
+                this.tabContents = document.querySelectorAll('.tab-content');
+            }
+            
+            init() {
+                this.tabButtons.forEach(button => {
+                    button.addEventListener('click', () => this.switchTab(button.dataset.tab));
+                });
+            }
+            
+            switchTab(tabId) {
+                // Update buttons
+                this.tabButtons.forEach(btn => {
+                    const isActive = btn.dataset.tab === tabId;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-selected', isActive);
+                });
+                
+                // Update content
+                this.tabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === tabId);
+                });
+                
+                // Special handling for glyph viewer
+                if (tabId === 'glyph-list') {
+                    window.dispatchEvent(new Event('resize'));
+                }
+            }
+        }
+        
+        // ============================================
+        // TEXT TESTER (SCREEN 1)
+        // ============================================
+        class TextTester {
+            constructor() {
+                this.modeButtons = document.querySelectorAll('.mode-button');
+                this.fontSizeSlider = document.getElementById('fontSizeSlider');
+                this.fontSizeValue = document.getElementById('fontSizeValue');
+                this.previewTextarea = document.getElementById('previewTextarea');
+                this.currentMode = 'only';
+                this.currentSize = 2;
+            }
+            
+            init() {
+                // Font mode toggle
+                this.modeButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        this.modeButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        this.currentMode = button.dataset.mode;
+                        this.updatePreview();
+                    });
+                });
+                
+                // Font size slider
+                this.fontSizeSlider.addEventListener('input', (e) => {
+                    this.currentSize = parseFloat(e.target.value);
+                    this.fontSizeValue.textContent = `${this.currentSize.toFixed(1)}rem`;
+                    this.updatePreview();
+                });
+                
+                this.updatePreview();
+            }
+            
+            updatePreview() {
+                if (this.currentMode === 'only') {
+                    this.previewTextarea.style.fontFamily = "'UnicodeHexMono', monospace";
+                } else {
+                    this.previewTextarea.style.fontFamily = "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', 'UnicodeHexMono', monospace";
+                }
+                this.previewTextarea.style.fontSize = `${this.currentSize}rem`;
+            }
+        }
+        
+        // ============================================
+        // VIRTUAL GLYPH LIST (SCREEN 2)
+        // ============================================
+        class VirtualGlyphList {
+            constructor() {
+                this.scrollContainer = document.getElementById('scrollContainer');
+                this.scrollContent = document.getElementById('scrollContent');
+                this.glyphGrid = document.getElementById('glyphGrid');
+                this.viewerStats = document.getElementById('viewerStats');
+                this.viewerWarning = document.getElementById('viewerWarning');
+                
+                // Configuration
+                this.itemHeight = 130; // Approximate height of each card (reduced from 180)
+                this.itemsPerRow = 4; // Default items per row (will be calculated dynamically)
+                this.bufferRows = 3; // Extra rows to render above/below viewport
+                
+                // All valid Unicode codepoints (excluding surrogates and non-characters)
+                this.allCodepoints = this.generateValidCodepoints();
+                this.totalItems = this.allCodepoints.length;
+                
+                this.visibleStart = -1;
+                this.visibleEnd = -1;
+                this.isScrolling = false;
+            }
+            
+            generateValidCodepoints() {
+                const codepoints = [];
+                
+                for (let cp = 0x0000; cp <= 0x10FFFF; cp++) {
+                    // Skip surrogates
+                    if (cp >= 0xD800 && cp <= 0xDFFF) continue;
+                    
+                    // Skip non-characters ending in FFFE/FFFF
+                    if ((cp & 0xFFFF) >= 0xFFFE) continue;
+                    
+                    // Skip U+FDD0-U+FDEF
+                    if (cp >= 0xFDD0 && cp <= 0xFDEF) continue;
+                    
+                    codepoints.push(cp);
+                }
+                
+                return codepoints;
+            }
+            
+            init() {
+                this.updateStats();
+                this.render();
+                
+                let scrollTimeout;
+                this.scrollContainer.addEventListener('scroll', () => {
+                    if (!this.isScrolling) {
+                        this.isScrolling = true;
+                        requestAnimationFrame(() => {
+                            this.render();
+                            this.isScrolling = false;
+                        });
+                    }
+                });
+                
+                // Debounced resize handler
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        this.visibleStart = -1; // Force re-render
+                        this.visibleEnd = -1;
+                        this.render();
+                    }, 150);
+                });
+            }
+            
+            updateStats() {
+                const start = this.allCodepoints[0].toString(16).toUpperCase().padStart(5, '0');
+                const end = this.allCodepoints[this.allCodepoints.length - 1].toString(16).toUpperCase().padStart(5, '0');
+                this.viewerStats.textContent = `U+${start} - U+${end} (${this.totalItems.toLocaleString()} glyphs)`;
+            }
+            
+            render() {
+                const containerHeight = this.scrollContainer.clientHeight;
+                const scrollTop = this.scrollContainer.scrollTop;
+                
+                // Get actual number of columns from computed grid
+                const gridComputedStyle = window.getComputedStyle(this.glyphGrid);
+                const gridTemplateColumns = gridComputedStyle.gridTemplateColumns;
+                const actualColumns = gridTemplateColumns ? gridTemplateColumns.split(' ').length : this.itemsPerRow;
+                
+                // Calculate total rows
+                const totalRows = Math.ceil(this.totalItems / actualColumns);
+                const totalHeight = totalRows * this.itemHeight;
+                
+                // Check if all glyphs are reachable with current screen setup
+                this.checkReachability(actualColumns, totalHeight);
+                
+                // Calculate visible range with bounds checking
+                const rowsPerPage = Math.ceil(containerHeight / this.itemHeight);
+                const currentRow = Math.floor(scrollTop / this.itemHeight);
+                const startRow = Math.max(0, currentRow - this.bufferRows);
+                const endRow = Math.min(totalRows, currentRow + rowsPerPage + this.bufferRows);
+                
+                const startIndex = startRow * actualColumns;
+                const endIndex = Math.min(this.totalItems, endRow * actualColumns);
+                
+                // Only re-render if range changed significantly
+                if (startIndex === this.visibleStart && endIndex === this.visibleEnd) {
+                    return;
+                }
+                
+                this.visibleStart = startIndex;
+                this.visibleEnd = endIndex;
+                
+                // Set total height for scrolling
+                this.scrollContent.style.height = `${totalHeight}px`;
+                
+                // Position grid - align to row boundaries
+                const offsetTop = startRow * this.itemHeight;
+                this.glyphGrid.style.transform = `translateY(${offsetTop}px)`;
+                
+                // Clear and render visible items
+                this.glyphGrid.innerHTML = '';
+                const fragment = document.createDocumentFragment();
+                for (let i = startIndex; i < endIndex; i++) {
+                    if (i < this.totalItems) {
+                        fragment.appendChild(this.createGlyphCard(this.allCodepoints[i]));
+                    }
+                }
+                this.glyphGrid.appendChild(fragment);
+            }
+            
+            isViewerTab() {
+                const activeTab = document.querySelector('.tab-button.active');
+                const activeTabId = activeTab?.dataset?.tab ?? '';
+                return activeTabId === 'glyph-list';
+            }
+
+            checkReachability(columns, totalHeight) {
+                if (!this.isViewerTab()) {
+                    return;
+                }
+
+                // Browser max scrollHeight is typically ~33M pixels
+                const MAX_SCROLL_HEIGHT = 33000000;
+                const canReachAll = totalHeight < MAX_SCROLL_HEIGHT;
+                
+                // Show warning if we can't reach all glyphs (typically < 6 columns)
+                if (this.viewerWarning) {
+                    if (!canReachAll) {
+                        this.viewerWarning.classList.add('visible');
+                    } else {
+                        this.viewerWarning.classList.remove('visible');
+                    }
+                }
+            }
+            
+            createGlyphCard(codepoint) {
+                const card = document.createElement('div');
+                card.className = 'glyph-card';
+                
+                const hex = codepoint.toString(16).toUpperCase().padStart(codepoint > 0xFFFF ? 5 : 4, '0');
+                const char = String.fromCodePoint(codepoint);
+                
+                card.innerHTML = `
+                    <div class="glyph-examples">
+                        <div class="glyph-example size-4">${char}</div>
+                    </div>
+                    <div class="glyph-code">U+${hex}</div>
+                `;
+                
+                return card;
+            }
+        }
+        
+        // ============================================
+        // APP INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Initialize font loader
+            const fontLoader = new FontLoader();
+            await fontLoader.init();
+            
+            // Initialize theme manager
+            const themeManager = new ThemeManager();
+            themeManager.init();
+            
+            // Initialize tab manager
+            const tabManager = new TabManager();
+            tabManager.init();
+            
+            // Initialize text tester
+            const textTester = new TextTester();
+            textTester.init();
+            
+            // Initialize virtual glyph list
+            const glyphList = new VirtualGlyphList();
+            glyphList.init();
+            
+            console.log('UnicodeHexMono Font Showcase initialized');
+        });
+    </script>
+</body>
+</html>

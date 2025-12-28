@@ -1,0 +1,39 @@
+# Python source files
+*.py
+__pycache__/
+*.pyc
+
+# Test and demo files
+test.py
+index.html
+dist/UnicodeHexMono_TEST.otf
+dist/UnicodeHexMono_TEST.woff2
+test-npm-install/
+
+# Development files
+.DS_Store
+*.log
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Brain/artifacts directory
+.gemini/
+
+# Documentation for development only
+.agent/
+
+# Keep only essential files for npm package:
+# - dist/ directory (fonts and CSS)
+# - package.json
+# - LICENSE
+# - README.md (included by default)

@@ -1,0 +1,51 @@
+{
+  "name": "unicode-hex-mono",
+  "version": "1.0.0",
+  "description": "A monospaced font covering all Unicode characters (U+0000 to U+10FFFD) with hexadecimal codepoint display. Perfect as a debugging and fallback font.",
+  "main": "dist/font.css",
+  "type": "commonjs",
+  "exports": {
+    ".": "./dist/font.css",
+    "./dist/*": "./dist/*"
+  },
+  "files": [
+    "dist/UnicodeHexMono_[0-9A-F]*.otf",
+    "dist/UnicodeHexMono_[0-9A-F]*.woff2",
+    "dist/font.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "fontforge -script main.py",
+    "prepack": "npm run build",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": [
+    "font",
+    "unicode",
+    "monospace",
+    "debugging",
+    "fallback",
+    "hex",
+    "codepoint",
+    "opentype",
+    "otf",
+    "full-unicode",
+    "development-tool"
+  ],
+  "author": "Denis Ivanov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pratnomenis/unicode-hex-mono.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pratnomenis/unicode-hex-mono/issues"
+  },
+  "homepage": "https://github.com/Pratnomenis/unicode-hex-mono#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}
