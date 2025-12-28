@@ -96,11 +96,43 @@ import 'unicode-hex-mono/dist/font.css';
 - **Code editors**: Fallback for rare Unicode symbols
 
 
-## Current Status: ✅ COMPLETE
+## Current Status: ✅ PUBLISHED & LIVE
 
 **Architecture**: Modular design with 5 specialized Python files for maintainability
 
 **Latest Updates**:
+- ✅ **NEW (Dec 28-29, 2025)**: **Published to GitHub and npm** 🚀
+  - **GitHub repository**: https://github.com/Pratnomenis/unicode-hex-mono
+  - **NPM package**: https://www.npmjs.com/package/unicode-hex-mono (v1.0.0)
+  - Successfully published with 2FA authentication
+  - Removed `prepack` script to avoid fontforge dependency during npm publish
+  - Package includes all 38 font files (19 ranges × 2 formats)
+  - Git HTTP buffer increased to 500MB to handle large file push (524288000 bytes)
+- ✅ **NEW (Dec 28-29, 2025)**: **Comprehensive GitHub repository setup**
+  - Created professional `README.md` as GitHub landing page with:
+    - Eye-catching badges (npm version, downloads, license, coverage, format)
+    - Visual examples section with 2 generated diagrams
+    - Installation instructions for npm/yarn/pnpm
+    - Usage examples for CSS import, HTML link, and bundlers
+    - Glyph display format explanations
+    - Performance details and technical specifications
+  - Created `CONTRIBUTING.md` with complete contribution guidelines:
+    - Bug reporting template
+    - Feature request guidance
+    - Development setup instructions
+    - Code style and testing guidelines
+    - PR submission workflow with conventional commits
+  - Created `CHANGELOG.md` following "Keep a Changelog" format:
+    - Detailed v1.0.0 release documentation
+    - All features categorized (Core, Visual, Technical, Performance, Distribution)
+    - Technical specifications and version history
+  - Created `.github-assets/` folder with visual assets:
+    - `glyph-examples.png` - Diagram showing 4 glyph display formats
+    - `debugging-example.png` - Before/after debugging comparison
+    - `social-preview.png` - GitHub social preview banner (1280×640px)
+  - Updated `.gitignore` to properly track visual assets
+  - Added GitHub topics for discoverability
+  - Created v1.0.0 release tag
 - ✅ **NEW (Dec 28, 2025)**: **WOFF2 format support** - All fonts now generated in both OTF and WOFF2 formats
   - WOFF2 provides incredible 97.6% compression (414MB → 10MB!)
   - Uses `fonttools` library for WOFF2 conversion (FontForge's WOFF2 generation was broken)
