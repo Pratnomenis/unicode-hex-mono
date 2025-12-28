@@ -17,7 +17,6 @@
   ],
   "scripts": {
     "build": "fontforge -script main.py",
-    "prepack": "npm run build",
     "pack:check": "npm pack --dry-run"
   },
   "keywords": [
