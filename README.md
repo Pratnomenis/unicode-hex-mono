@@ -3,11 +3,26 @@
 > **A monospaced font covering all Unicode characters (U+0000 to U+10FFFD) with hexadecimal codepoint display**
 
 [![npm version](https://img.shields.io/npm/v/unicode-hex-mono.svg)](https://www.npmjs.com/package/unicode-hex-mono)
+[![npm downloads](https://img.shields.io/npm/dm/unicode-hex-mono.svg)](https://www.npmjs.com/package/unicode-hex-mono)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Unicode Coverage](https://img.shields.io/badge/Unicode-U+0000--U+10FFFD-brightgreen.svg)](https://unicode.org/)
 [![Font Format](https://img.shields.io/badge/Format-OTF%20%7C%20WOFF2-orange.svg)](https://www.w3.org/TR/WOFF2/)
 
 Perfect as a **debugging and fallback font** to visualize invisible characters, detect missing glyphs, and identify mystery Unicode symbols by their hexadecimal codepoints.
+
+## 📸 Visual Examples
+
+### Glyph Display Formats
+
+![Glyph Examples](.github-assets/glyph-examples.png)
+
+*UnicodeHexMono renders different Unicode ranges with distinct visual styles for easy identification.*
+
+### Debugging in Action
+
+![Debugging Example](.github-assets/debugging-example.png)
+
+*Invisible characters become visible, making debugging text issues effortless.*
 
 ---
 
@@ -253,8 +268,10 @@ These exclusions prevent OTS parsing errors in browsers.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
-- Report bugs via [GitHub Issues](https://github.com/yourusername/unicode-hex-mono/issues)
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+Quick links:
+- Report bugs via [GitHub Issues](https://github.com/Pratnomenis/unicode-hex-mono/issues)
 - Submit feature requests
 - Improve documentation
 - Optimize font generation code

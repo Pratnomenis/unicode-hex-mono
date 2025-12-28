@@ -40,7 +40,9 @@ yarn-error.log*
 
 # AI assistant artifacts
 .gemini/
-.agent/
 
 # Node modules (if any)
 node_modules/
+
+# Keep .github-assets for README images
+!.github-assets/
