@@ -36,7 +36,7 @@ Perfect as a **debugging and fallback font** to visualize invisible characters, 
 - 🎯 **Monospaced** - Fixed-width design for consistent alignment
 - 🔍 **Debugging Tool** - Identify invisible characters (zero-width spaces, RTL marks, control chars)
 - 🌐 **i18n Helper** - Detect missing glyphs in your primary font
-- 📝 **19 Font Files** - Split architecture handles OpenType's 65,535 glyph limit
+- 📝 **20 Font Files** - Split architecture: 1 optimized ASCII file + 19 ranges for full Unicode
 
 ---
 
@@ -125,7 +125,28 @@ import 'unicode-hex-mono/dist/font.css';
 
 UnicodeHexMono renders different Unicode ranges with distinct visual styles:
 
-### Basic Multilingual Plane (U+0000 - U+FFFF)
+### ASCII & Extended ASCII (U+0000 - U+00FF)
+
+**2 huge hex digits** horizontally centered inside outlined rounded square:
+
+```
+Example: U+0041 ('A') displays as:
+┌─────────┐
+│  4   1  │  ← Only 2 digits, 54% larger
+└─────────┘
+```
+
+**Why different?** This range contains the most commonly used characters (standard ASCII and Latin-1). The larger, simpler 2-digit format makes them:
+- **Easier to read** at smaller font sizes
+- **Faster to identify** during debugging
+- **Visually distinct** from other Unicode ranges
+
+Examples:
+- U+0041 ('A') → **41**
+- U+007E ('~') → **7E**
+- U+00FF (ÿ) → **FF**
+
+### Other BMP Characters (U+0100 - U+FFFF)
 
 4-digit hex code in **2×2 grid** inside outlined rounded square:
 
@@ -164,7 +185,33 @@ Example: U+10ABCD displays as:
 
 ### Replacement Character (U+FFFD)
 
-Diagonal **X** inside outlined square (also shows for U+0000/NULL)
+Diagonal **X** inside outlined square
+
+---
+
+## ⚠️ Known Limitations
+
+### Whitespace and Control Characters
+
+Due to browser text rendering behavior, some characters appear **blank** even though the font contains visible glyphs:
+
+**Control Characters:**
+- U+0000 (NULL)
+- U+0009 (TAB)
+- U+000A (Line Feed)
+- U+000B-U+000D (VT, FF, CR)
+
+**Whitespace:**
+- U+0020 (SPACE)
+- U+00AD (Soft Hyphen)
+- U+2000-U+200F (Various spaces and format characters)
+
+**Invisible Specials:**
+- U+FFF0-U+FFF8 (Interlinear annotation characters)
+
+**Why:** Browsers recognize these codepoints by their Unicode semantics and apply hardcoded rendering rules (spacing, line breaks, invisibility) that completely bypass the font's glyph outlines. This is expected browser behavior per Unicode specification.
+
+**Workaround:** Use hex editors, Unicode inspectors, or character code viewers to examine these characters.
 
 ---
 
@@ -196,7 +243,7 @@ Diagonal **X** inside outlined square (also shows for U+0000/NULL)
 ### Build
 
 ```bash
-# Generate all 38 font files (19 ranges × 2 formats)
+# Generate all 40 font files (20 ranges × 2 formats)
 fontforge -script main.py
 
 # Test in browser
@@ -204,7 +251,26 @@ python3 -m http.server 8080
 # Then open http://localhost:8080/index.html
 ```
 
-**Generation Time**: ~5-10 minutes for all 19 font files
+**Generation Time**: ~5-10 minutes for all 20 font files
+
+### Troubleshooting
+
+#### "fonttools not installed" warning
+
+If you see `⚠ fonttools not installed - skipping WOFF2 generation` even after installing fonttools:
+
+**Cause**: FontForge uses its own Python interpreter, which may be different from your system Python.
+
+**Fix**:
+```bash
+# Check FontForge's Python version
+fontforge -script -c "import sys; print(sys.version)"
+
+# Install for that specific Python version (e.g., 3.14)
+python3.14 -m pip install --break-system-packages fonttools brotli
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md#troubleshooting) for more details.
 
 ---
 
@@ -212,17 +278,20 @@ python3 -m http.server 8080
 
 ```
 dist/
-├── UnicodeHexMono_00000_0F25F.otf      (62,112 glyphs)
-├── UnicodeHexMono_00000_0F25F.woff2
+├── UnicodeHexMono_00000_000FF.otf      (256 glyphs - ASCII & Extended ASCII)
+├── UnicodeHexMono_00000_000FF.woff2
+├── UnicodeHexMono_00100_0F25F.otf      (~61,800 glyphs)
+├── UnicodeHexMono_00100_0F25F.woff2
 ├── UnicodeHexMono_0F260_1DCE1.otf      (60,002 glyphs)
 ├── UnicodeHexMono_0F260_1DCE1.woff2
 ├── ... (17 more ranges)
 └── font.css                             (Auto-generated @font-face rules)
 ```
 
-- **38 font files**: 19 OTF + 19 WOFF2
+- **40 font files**: 20 OTF + 20 WOFF2
 - **1 CSS file**: All `@font-face` declarations with `unicode-range` optimization
 - **Total Coverage**: 1,111,998 valid Unicode codepoints
+- **Performance**: ASCII file (U+0000-U+00FF) is only ~20KB for fast loading of common characters
 
 ---
 

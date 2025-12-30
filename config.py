@@ -41,6 +41,9 @@ DIGIT_SIZE = 260          # Size of each hex digit (increased from 190, 37% larg
 GRID_SPACING = 30         # Spacing between digits in grid (increased from 20)
 DIGIT_STROKE_WIDTH = 25   # Stroke width for digit paths
 
+# 2-digit hex display (for U+0000 to U+00FF - ASCII & Extended ASCII)
+TWO_DIGIT_SIZE = 400      # Huge size for 2-digit display (54% larger than standard DIGIT_SIZE)
+
 # Glyph positioning
 GLYPH_Y_OFFSET = -50      # Vertical offset for centering glyphs
 

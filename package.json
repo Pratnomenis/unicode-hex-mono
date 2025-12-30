@@ -1,6 +1,6 @@
 {
   "name": "unicode-hex-mono",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A monospaced font covering all Unicode characters (U+0000 to U+10FFFD) with hexadecimal codepoint display. Perfect as a debugging and fallback font.",
   "main": "dist/font.css",
   "type": "commonjs",

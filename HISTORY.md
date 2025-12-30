@@ -100,7 +100,31 @@ import 'unicode-hex-mono/dist/font.css';
 
 **Architecture**: Modular design with 5 specialized Python files for maintainability
 
+## Version 1.1.0 (December 30, 2024)
+
+### 🎉 New Features
+
 **Latest Updates**:
+- ✅ **NEW (Dec 30, 2025)**: **Separate ASCII font file for performance** - Optimized loading
+  - **U+0000-U+00FF now in dedicated file** `UnicodeHexMono_00000_000FF.otf/woff2`
+  - Only ~20KB (256 glyphs) vs previous ~500KB (62,000 glyphs)
+  - Perfect for Windows-1252/Latin-1 only use cases
+  - Browsers load only what's needed via CSS `unicode-range`
+  - Updated generator: ASCII file first, then 60k chunks for remaining codepoints
+  - **Total files: 20 ranges** (1 ASCII + 19 remaining) × 2 formats = **40 font files**
+- ✅ **NEW (Dec 30, 2025)**: **ASCII & Extended ASCII 2-digit display** - Enhanced visual hierarchy
+  - **U+0000-U+00FF range now shows only 2 huge hex digits** (not 4) for improved readability
+  - Digits are 54% larger (400 units vs 260 units) and horizontally centered in rounded square
+  - Examples: U+0041 ('A') displays as **41**, U+00FF (ÿ) displays as **FF**
+  - Exception: U+FFFD still shows diagonal X (unchanged)
+  - Added comprehensive test section to `index.html` with 50+ test cases covering:
+    - Control characters (U+0000-U+001F)
+    - Printable ASCII (U+0020-U+007E)  
+    - DEL + C1 controls (U+007F-U+009F)
+    - Latin-1 Supplement (U+00A0-U+00FF)
+  - Updated `test.py` with 25+ new test codepoints for the modified range
+  - New configuration constant `TWO_DIGIT_SIZE = 400` in `config.py`
+  - New function `draw_hex_code_2digit()` in `glyphs.py` for this special rendering
 - ✅ **NEW (Dec 28-29, 2025)**: **Published to GitHub and npm** 🚀
   - **GitHub repository**: https://github.com/Pratnomenis/unicode-hex-mono
   - **NPM package**: https://www.npmjs.com/package/unicode-hex-mono (v1.0.0)

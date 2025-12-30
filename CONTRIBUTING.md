@@ -45,6 +45,30 @@ brew install fontforge  # macOS
 pip3 install --break-system-packages fonttools brotli
 ```
 
+### Troubleshooting
+
+#### "fonttools not installed" warning despite installation
+
+**Problem**: FontForge shows "⚠ fonttools not installed" even after running `pip3 install fonttools brotli`.
+
+**Cause**: FontForge uses its own embedded Python interpreter (often different from system Python). When you install packages with `pip3`, they go to your system Python, not FontForge's Python.
+
+**Solution**: Check FontForge's Python version and install for that specific version:
+
+```bash
+# 1. Check which Python version FontForge uses
+fontforge -script -c "import sys; print(sys.version)"
+# Example output: 3.14.2 (main, Dec  5 2025, ...)
+
+# 2. Install fonttools for that specific Python version
+python3.14 -m pip install --break-system-packages fonttools brotli
+
+# If the python3.X command doesn't exist, try:
+# /opt/homebrew/bin/python3.14 -m pip install --break-system-packages fonttools brotli
+```
+
+**Verification**: Run generation again - WOFF2 files should now be created without warnings.
+
 ### Clone and Build
 
 ```bash

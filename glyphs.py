@@ -54,13 +54,60 @@ def draw_replacement_character(glyph):
     pen = None
 
 
+def draw_hex_code_2digit(glyph, codepoint):
+    """
+    Draw a 2-digit hexadecimal code (last 2 digits) in huge size, centered.
+    Used for U+0000 to U+00FF (ASCII & Extended ASCII).
+    
+    Args:
+        glyph: FontForge glyph object
+        codepoint: Unicode codepoint value (0x0000 to 0x00FF)
+    """
+    # Convert codepoint to 2-digit hex string (only last 2 digits)
+    hex_str = f"{codepoint:02X}"  # e.g., "4A" for U+004A
+    
+    pen = glyph.glyphPen()
+    
+    # Draw outer rounded square border
+    x_left = config.BOX_MARGIN
+    y_bottom = config.GLYPH_Y_OFFSET
+    utils.draw_rounded_square(pen, x_left, y_bottom, config.BOX_SIZE, config.CORNER_RADIUS)
+    
+    # Calculate positioning for 2 huge digits (horizontal layout)
+    inner_size = config.BOX_SIZE - 2 * config.BOX_STROKE_WIDTH
+    inner_x = config.BOX_MARGIN + config.BOX_STROKE_WIDTH
+    inner_y = config.GLYPH_Y_OFFSET + config.BOX_STROKE_WIDTH
+    
+    # Two digits side by side with spacing
+    digit_width = config.TWO_DIGIT_SIZE * 0.6  # Aspect ratio 60%
+    total_width = 2 * digit_width + config.GRID_SPACING
+    
+    # Center the two digits horizontally
+    offset_x = (inner_size - total_width) / 2
+    offset_y = (inner_size - config.TWO_DIGIT_SIZE) / 2  # Center vertically
+    
+    # Draw first digit (left)
+    utils.draw_hex_digit(pen, hex_str[0],
+                         inner_x + offset_x,
+                         inner_y + offset_y,
+                         config.TWO_DIGIT_SIZE)
+    
+    # Draw second digit (right)
+    utils.draw_hex_digit(pen, hex_str[1],
+                         inner_x + offset_x + digit_width + config.GRID_SPACING,
+                         inner_y + offset_y,
+                         config.TWO_DIGIT_SIZE)
+    
+    pen = None
+
+
 def draw_hex_code_2x2(glyph, codepoint):
     """
     Draw a 4-digit hexadecimal code in a 2x2 grid layout inside the glyph.
     
     Args:
         glyph: FontForge glyph object
-        codepoint: Unicode codepoint value (0x0000 to 0xFFFF)
+        codepoint: Unicode codepoint value (0x0100 to 0xFFFF)
     """
     # Convert codepoint to 4-digit hex string
     hex_str = f"{codepoint:04X}"
@@ -386,12 +433,15 @@ def create_glyph(font, codepoint):
         # Supplementary Planes 1-15: Outlined square with plane digit + 2x2 grid
         draw_hex_code_5digit_split(glyph, codepoint)
     elif 0x0000 <= codepoint <= 0xFFFF:
-        # BMP: Check for replacement character
+        # BMP: Check for special cases
         if codepoint == 0xFFFD:
             # U+FFFD replacement character: Square with diagonal X
             draw_replacement_character(glyph)
+        elif 0x0000 <= codepoint <= 0x00FF:
+            # ASCII & Extended ASCII: 2-digit huge display
+            draw_hex_code_2digit(glyph, codepoint)
         else:
-            # All other BMP: Outlined square with 4-digit hex in 2x2 grid
+            # Other BMP (U+0100-U+FFFC): 4-digit hex in 2x2 grid
             draw_hex_code_2x2(glyph, codepoint)
     else:
         # Fallback: outlined square (this shouldn't normally be reached)

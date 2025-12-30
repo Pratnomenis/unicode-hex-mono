@@ -11,15 +11,44 @@ import glyphs
 
 # Test codepoints to systematically verify all hex digits (0-9, A-F) in different positions
 test_codepoints = [
-    # Control characters - should now show hex codes (except U+0000 shows X due to browser)
-    0x0000,    # NULL - browser forces to U+FFFD (shows X)
-    0x0001,    # Start of Heading - should show 00/01
-    0x000A,    # Line Feed - should show 00/0A
-    0x001F,    # Unit Separator - should show 00/1F
-    0x007F,    # Delete - should show 00/7F
+    # ===== NEW: ASCII & Extended ASCII (U+0000-U+00FF) - 2-digit huge display =====
+    # Control characters (U+0000-U+001F)
+    0x0000,    # NULL - browser forces to U+FFFD (shows X) or 00
+    0x0001,    # SOH - should show 01 (huge, centered)
+    0x0009,    # TAB - should show 09 (huge, centered)
+    0x000A,    # LF - should show 0A (huge, centered)
+    0x000D,    # CR - should show 0D (huge, centered)
+    0x001B,    # ESC - should show 1B (huge, centered)
+    0x001F,    # Unit Separator - should show 1F (huge, centered)
     
-    # BMP: Systematic testing of all hex digits in different positions
-    0x0123,    # All low digits
+    # Printable ASCII (U+0020-U+007E)
+    0x0020,    # SPACE - should show 20 (huge, centered)
+    0x0030,    # '0' - should show 30 (huge, centered)
+    0x0039,    # '9' - should show 39 (huge, centered)
+    0x0041,    # 'A' - should show 41 (huge, centered)
+    0x005A,    # 'Z' - should show 5A (huge, centered)
+    0x0061,    # 'a' - should show 61 (huge, centered)
+    0x007A,    # 'z' - should show 7A (huge, centered)
+    0x007E,    # '~' - should show 7E (huge, centered)
+    0x007F,    # DEL - should show 7F (huge, centered)
+    
+    # C1 Controls + Latin-1 Supplement (U+0080-U+00FF)
+    0x0080,    # PAD - should show 80 (huge, centered)
+    0x0090,    # DCS - should show 90 (huge, centered)
+    0x009F,    # APC - should show 9F (huge, centered)
+    0x00A0,    # NBSP - should show A0 (huge, centered)
+    0x00A9,    # © - should show A9 (huge, centered)
+    0x00B0,    # ° - should show B0 (huge, centered)
+    0x00C0,    # À - should show C0 (huge, centered)
+    0x00D0,    # Ð - should show D0 (huge, centered)
+    0x00E0,    # à - should show E0 (huge, centered)
+    0x00F0,    # ð - should show F0 (huge, centered)
+    0x00FF,    # ÿ - should show FF (huge, centered)
+    
+    # ===== BMP (U+0100-U+FFFF) - 4-digit 2x2 grid display =====
+    # Systematic testing of all hex digits in different positions
+    0x0100,    # First after ASCII range - should show 01/00 (2x2 grid)
+    0x0123,    # All low digits - should show 01/23 (2x2 grid)
     0x1234,    # Sequential digits
     0x2345,
     0x3456,

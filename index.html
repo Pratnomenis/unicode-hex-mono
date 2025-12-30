@@ -662,7 +662,28 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
                     <h2>📐 Glyph Display Formats by Unicode Range</h2>
                     <div style="display: grid; gap: var(--spacing-md);">
                         <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
-                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">🔤 BMP Characters (U+0000 — U+FFFF)</h3>
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">🔤 ASCII & Extended ASCII (U+0000 — U+00FF)</h3>
+                            <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
+                                <strong>Format:</strong> 2 huge hex digits horizontally centered inside outlined rounded square
+                            </p>
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                                <div class="test-glyph" style="font-size: 3rem;">&#x0041;</div>
+                                <div style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.875rem;">
+                                    <div><strong>Example:</strong> U+0041 ('A')</div>
+                                    <div style="margin-top: 4px;">Displays as: <strong>41</strong></div>
+                                    <div style="margin-top: 4px;">(2 digits only, 54% larger)</div>
+                                </div>
+                            </div>
+                            <div style="background: var(--bg-tertiary); padding: var(--spacing-sm); border-radius: var(--radius-sm); margin-top: var(--spacing-sm);">
+                                <div style="color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6;">
+                                    <strong>Why different?</strong> This range contains the most commonly used characters (ASCII + Latin-1). 
+                                    The larger, simpler format makes them easier to read and faster to identify during debugging.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--border);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--spacing-sm); font-size: 1rem;">📝 Other BMP Characters (U+0100 — U+FFFF)</h3>
                             <p style="color: var(--text-primary); line-height: 1.8; margin-bottom: var(--spacing-sm);">
                                 <strong>Format:</strong> 4-digit hex code in 2×2 grid inside outlined rounded square
                             </p>
@@ -913,6 +934,41 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
             <div class="glyph-viewer">
                 <div class="viewer-header">
                     <h2 class="viewer-title">Unicode Glyph Explorer</h2>
+                    <div class="jump-to-codepoint">
+                        <label for="jumpInput" style="color: var(--text-secondary); font-size: 0.875rem; margin-right: 0.5rem;">Jump to:</label>
+                        <input 
+                            type="text" 
+                            id="jumpInput" 
+                            placeholder="Enter hex (e.g., FFFD)"
+                            style="
+                                padding: 0.375rem 0.75rem;
+                                border: 1px solid var(--border);
+                                border-radius: var(--radius-sm);
+                                background: var(--bg-primary);
+                                color: var(--text-primary);
+                                font-family: var(--font-mono);
+                                font-size: 0.875rem;
+                                width: 180px;
+                                outline: none;
+                            "
+                        >
+                        <button 
+                            id="jumpButton"
+                            style="
+                                padding: 0.375rem 1rem;
+                                margin-left: 0.5rem;
+                                border: none;
+                                border-radius: var(--radius-sm);
+                                background: var(--primary);
+                                color: white;
+                                font-size: 0.875rem;
+                                cursor: pointer;
+                                transition: var(--transition-base);
+                            "
+                            onmouseover="this.style.background='var(--primary-hover)'"
+                            onmouseout="this.style.background='var(--primary)'"
+                        >Go</button>
+                    </div>
                     <div>
                         <span class="viewer-warning" id="viewerWarning">⚠️ Screen too narrow - not all glyphs reachable</span>
                         <span class="viewer-stats" id="viewerStats">U+0000 - U+10FFFF</span>
@@ -929,6 +985,220 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
         <!-- Screen 3: Test Cases -->
         <div class="tab-content" id="test-cases" role="tabpanel">
             <div class="test-cases">
+                <!-- NEW: ASCII & Extended ASCII Section -->
+                <div class="test-section">
+                    <h2>🆕 ASCII & Extended ASCII (U+0000 — U+00FF) - 2-Digit Huge Display</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-md); line-height: 1.6;">
+                        This range now displays only <strong>2 huge hex digits</strong> (not 4) centered in the rounded square. 
+                        Examples: U+0041 shows "41", U+00FF shows "FF".
+                    </p>
+                    
+                    <h3 style="color: var(--secondary); font-size: 0.95rem; margin: var(--spacing-md) 0 var(--spacing-sm) 0;">Control Characters (U+0000 - U+001F)</h3>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0000;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0000 (NULL)</div>
+                                <div class="test-expected">00 or X (browser security: NULL→FFFD)</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0001;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0001 (SOH)</div>
+                                <div class="test-expected">01</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0009;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0009 (TAB)</div>
+                                <div class="test-expected">09</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x000A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+000A (LF)</div>
+                                <div class="test-expected">0A</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x000D;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+000D (CR)</div>
+                                <div class="test-expected">0D</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x001B;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+001B (ESC)</div>
+                                <div class="test-expected">1B</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x001F;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+001F</div>
+                                <div class="test-expected">1F</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: var(--secondary); font-size: 0.95rem; margin: var(--spacing-lg) 0 var(--spacing-sm) 0;">Printable ASCII (U+0020 - U+007E)</h3>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0020;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0020 (SPACE)</div>
+                                <div class="test-expected">20</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0030;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0030 ('0')</div>
+                                <div class="test-expected">30</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0039;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0039 ('9')</div>
+                                <div class="test-expected">39</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0041;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0041 ('A')</div>
+                                <div class="test-expected">41</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x005A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+005A ('Z')</div>
+                                <div class="test-expected">5A</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0061;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0061 ('a')</div>
+                                <div class="test-expected">61</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x007A;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+007A ('z')</div>
+                                <div class="test-expected">7A</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x007E;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+007E ('~')</div>
+                                <div class="test-expected">7E</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: var(--secondary); font-size: 0.95rem; margin: var(--spacing-lg) 0 var(--spacing-sm) 0;">DEL + C1 Controls (U+007F - U+009F)</h3>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x007F;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+007F (DEL)</div>
+                                <div class="test-expected">7F</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0080;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0080</div>
+                                <div class="test-expected">80</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x0090;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+0090</div>
+                                <div class="test-expected">90</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x009F;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+009F</div>
+                                <div class="test-expected">9F</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: var(--secondary); font-size: 0.95rem; margin: var(--spacing-lg) 0 var(--spacing-sm) 0;">Latin-1 Supplement (U+00A0 - U+00FF)</h3>
+                    <div class="test-grid">
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00A0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00A0 (NBSP)</div>
+                                <div class="test-expected">A0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00A9;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00A9 (©)</div>
+                                <div class="test-expected">A9</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00B0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00B0 (°)</div>
+                                <div class="test-expected">B0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00C0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00C0 (À)</div>
+                                <div class="test-expected">C0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00D0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00D0 (Ð)</div>
+                                <div class="test-expected">D0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00E0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00E0 (à)</div>
+                                <div class="test-expected">E0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00F0;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00F0 (ð)</div>
+                                <div class="test-expected">F0</div>
+                            </div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-glyph">&#x00FF;</div>
+                            <div class="test-info">
+                                <div class="test-code">U+00FF (ÿ)</div>
+                                <div class="test-expected">FF</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="test-section">
                     <h2>🔍 Control Characters - Hex Code Display</h2>
                     <div class="test-grid">
@@ -943,7 +1213,7 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
                             <div class="test-glyph">&#x0001;</div>
                             <div class="test-info">
                                 <div class="test-code">U+0001</div>
-                                <div class="test-expected">00/01</div>
+                                <div class="test-expected">01 (huge, centered)</div>
                             </div>
                         </div>
                         <div class="test-item">
@@ -957,21 +1227,21 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
                             <div class="test-glyph">&#x001F;</div>
                             <div class="test-info">
                                 <div class="test-code">U+001F</div>
-                                <div class="test-expected">00/1F</div>
+                                <div class="test-expected">1F (huge, centered)</div>
                             </div>
                         </div>
                         <div class="test-item">
                             <div class="test-glyph">&#x007F;</div>
                             <div class="test-info">
                                 <div class="test-code">U+007F</div>
-                                <div class="test-expected">00/7F</div>
+                                <div class="test-expected">7F (huge, centered)</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="test-section">
-                    <h2>📊 BMP Characters (U+0000 - U+FFFF) - 2x2 Grid Layout</h2>
+                    <h2>📊 BMP Characters (U+0100 - U+FFFF) - 2x2 Grid Layout</h2>
                     <div class="test-grid">
                         <div class="test-item">
                             <div class="test-glyph">&#x0123;</div>
@@ -1096,7 +1366,7 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
                             <div class="test-glyph">&#x0041;</div>
                             <div class="test-info">
                                 <div class="test-code">U+0041</div>
-                                <div class="test-expected">00/41</div>
+                                <div class="test-expected">41 (huge, centered)</div>
                             </div>
                         </div>
                     </div>
@@ -1477,6 +1747,62 @@ font-family: "SF Mono", Menlo, Monaco, Consolas,
             init() {
                 this.updateStats();
                 this.render();
+                
+                // Jump to codepoint functionality
+                const jumpInput = document.getElementById('jumpInput');
+                const jumpButton = document.getElementById('jumpButton');
+                
+                const jumpToCodepoint = () => {
+                    const hexInput = jumpInput.value.trim().toUpperCase();
+                    if (!hexInput) return;
+                    
+                    // Remove U+ prefix if present
+                    const hex = hexInput.replace(/^U\+/, '');
+                    
+                    // Parse hex to decimal
+                    const codepoint = parseInt(hex, 16);
+                    
+                    // Validate codepoint
+                    if (isNaN(codepoint) || codepoint < 0 || codepoint > 0x10FFFF) {
+                        alert(`Invalid codepoint: ${hexInput}\nPlease enter a valid hex value (0-10FFFF)`);
+                        return;
+                    }
+                    
+                    // Find index of this codepoint in our array
+                    const index = this.allCodepoints.indexOf(codepoint);
+                    
+                    if (index === -1) {
+                        alert(`Codepoint U+${hex} is not valid (surrogate, non-character, etc.)\nTry another codepoint.`);
+                        return;
+                    }
+                    
+                    // Calculate scroll position
+                    const gridComputedStyle = window.getComputedStyle(this.glyphGrid);
+                    const gridTemplateColumns = gridComputedStyle.gridTemplateColumns;
+                    const actualColumns = gridTemplateColumns ? gridTemplateColumns.split(' ').length : this.itemsPerRow;
+                    
+                    const row = Math.floor(index / actualColumns);
+                    const scrollPosition = row * this.itemHeight;
+                    
+                    // Scroll to position
+                    this.scrollContainer.scrollTop = scrollPosition;
+                    
+                    // Clear input
+                    jumpInput.value = '';
+                    jumpInput.blur();
+                    
+                    console.log(`Jumped to U+${hex} (index ${index}, row ${row})`);
+                };
+                
+                // Button click
+                jumpButton.addEventListener('click', jumpToCodepoint);
+                
+                // Enter key in input
+                jumpInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        jumpToCodepoint();
+                    }
+                });
                 
                 let scrollTimeout;
                 this.scrollContainer.addEventListener('scroll', () => {
