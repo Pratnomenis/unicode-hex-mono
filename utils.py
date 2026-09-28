@@ -172,9 +172,9 @@ def draw_hex_digit(pen, digit, x, y, size):
     # Helper to draw a filled rectangle
     def draw_rect(x1, y1, x2, y2):
         pen.moveTo((x1, y1))
-        pen.lineTo((x2, y1))
-        pen.lineTo((x2, y2))
         pen.lineTo((x1, y2))
+        pen.lineTo((x2, y2))
+        pen.lineTo((x2, y1))
         pen.closePath()
     
     # Draw each cell in the pattern
