@@ -12,6 +12,7 @@ All drawing functions use FontForge's pen API to draw vector paths.
 
 import config
 import fontforge
+import psMat
 
 contour_cache = {}
 
@@ -157,14 +158,11 @@ def draw_hex_digit(pen, digit, x, y, size):
         size: Height of the digit
     """
     
-    cache_key = ('hex_digit', digit, x, y, size)
+    cache_key = ('hex_digit', digit)
     layer = contour_cache.get(cache_key)
 
     if not layer:
         layer = fontforge.layer()
-
-        # Digit dimensions - width is 60% of height for 3:5 aspect ratio
-        width = size * 0.6
 
         # Define 3x5 grid patterns for each hex digit
         # Grid format: list of (col, row) tuples where col is 0-2 (left to right)
@@ -192,10 +190,6 @@ def draw_hex_digit(pen, digit, x, y, size):
         digit = digit.upper()
         pattern = digit_patterns.get(digit, [])
 
-        # Calculate cell dimensions for solid appearance
-        cell_height = size / 5  # 5 rows
-        cell_width = width / 3  # 3 columns
-
         # Helper to draw a filled rectangle
         def draw_rect(x1, y1, x2, y2):
             nonlocal layer
@@ -209,12 +203,20 @@ def draw_hex_digit(pen, digit, x, y, size):
         # Draw each cell in the pattern
         for col, row in pattern:
             # Calculate cell position
-            cell_x = x + col * cell_width
-            cell_y = y + row * cell_height
+            cell_x = col
+            cell_y = row
 
             # Draw the cell
-            draw_rect(cell_x, cell_y, cell_x + cell_width, cell_y + cell_height)
+            draw_rect(cell_x, cell_y, cell_x + 1, cell_y + 1)
 
         contour_cache[cache_key] = layer
 
-    layer.draw(pen)
+    # Digit dimensions - width is 60% of height for 3:5 aspect ratio
+    width = size * 0.6 / 3   # 3 columns
+    height = size / 5        # 5 rows
+
+    # Transform the unit-sized digit to the place and size we want it, then draw it into the glyph
+    transformed_layer = layer.dup()
+    transformation_matrix = psMat.compose(psMat.scale(width, height), psMat.translate(x, y))
+    transformed_layer.transform(transformation_matrix)
+    transformed_layer.draw(pen)
