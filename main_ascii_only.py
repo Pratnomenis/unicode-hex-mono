@@ -55,7 +55,13 @@ def main():
     font.os2_typodescent = -config.DESCENT
     font.os2_typolinegap = 0
     font.os2_panose = (2, 11, 6, 9, 3, 0, 0, 2, 0, 4)
-    
+
+    # Explicitly use absolute values, not offsets
+    font.os2_typoascent_add = False
+    font.os2_typodescent_add = False
+    font.os2_winascent_add = False
+    font.os2_windescent_add = False
+
     # Set PostScript name
     font.appendSFNTName('English (US)', 'PostScriptName', config.FONT_NAME)
     font.appendSFNTName('English (US)', 'Family', config.FONT_FAMILY)
